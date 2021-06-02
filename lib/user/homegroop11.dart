@@ -17,6 +17,7 @@ class _HomeGroupState extends State<HomeGroup> {
 // ignore: deprecated_member_use
   List<GroupFoodModel> groupFoodModels = List();
 
+  // ignore: deprecated_member_use
   List<Widget> shopMenu = List();
   Widget currentWidget;
   @override

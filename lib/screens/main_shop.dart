@@ -99,19 +99,6 @@ class _MainShopState extends State<MainShop> {
           ],
         ),
       );
-  // ListTile listMenu() {
-  //   return ListTile(
-  //     leading: Icon(Icons.menu),
-  //     title: Text('ເມນູ'),
-  //     onTap: () {
-  //       Navigator.pop(context);
-  //       MaterialPageRoute route =
-  //           MaterialPageRoute(builder: (value) => ListMenu());
-  //       Navigator.push(context, route);
-  //     },
-  //   );
-  // }
-
   ListTile homeMenu() => ListTile(
         leading: Icon(Icons.home),
         title: Text('ລາຍການສິນຄ້າທີ່ລູກຄ້າສັ່ງ'),
