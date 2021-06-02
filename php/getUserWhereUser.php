@@ -1,8 +1,7 @@
 <?php
-header("content-type:text/javascript;charset=utf-8");
-error_reporting(0);
+include 'connected.php';
+header("Access-Control-Allow-Origin: *");
 error_reporting(E_ERROR | E_PARSE);
-$link = mysqli_connect('localhost', 'root', 'EWTCeasy4com', "UngFood");
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -22,7 +21,7 @@ if (isset($_GET)) {
 				
 		$User = $_GET['User'];
 
-		$result = mysqli_query($link, "SELECT * FROM userTABLE WHERE User = '$User'");
+		$result = mysqli_query($link, "SELECT * FROM usertable WHERE User = '$User'");
 
 		if ($result) {
 

@@ -58,4 +58,3 @@ class UserModel {
     return data;
   }
 }
-

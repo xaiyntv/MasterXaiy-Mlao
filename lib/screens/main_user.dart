@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mlao/user/body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ungfood/screens/show_cart.dart';
-import 'package:ungfood/utility/my_style.dart';
-import 'package:ungfood/utility/signout_process.dart';
-import 'package:ungfood/widget/show_list_shop_all.dart';
-import 'package:ungfood/widget/show_status_food_order.dart';
+import 'package:mlao/shop/show_cart.dart';
+import 'package:mlao/utility/my_style.dart';
+import 'package:mlao/utility/signout_process.dart';
+import 'package:mlao/user/show_list_shop_all01.dart';
+import 'package:mlao/user/show_status_food_order.dart';
 
 class MainUser extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _MainUserState extends State<MainUser> {
   @override
   void initState() {
     super.initState();
-    currentWidget = ShowListShopAll();
+    currentWidget = Bodys();
     findUser();
   }
 
@@ -33,13 +34,9 @@ class _MainUserState extends State<MainUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nameUser == null ? 'Main User' : '$nameUser login'),
+        title: Text(nameUser == null ? 'Main User' : 'login  $nameUser'),
         actions: <Widget>[
           MyStyle().iconShowCart(context),
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () => signOutProcess(context),
-          )
         ],
       ),
       drawer: showDrawer(),
@@ -57,6 +54,10 @@ class _MainUserState extends State<MainUser> {
                 menuListShop(),
                 menuCart(),
                 menuStatusFoodOrder(),
+                // groupMenu(),
+                // ffood(),
+                // body(),
+                // fcat(),
               ],
             ),
             Column(
@@ -78,11 +79,33 @@ class _MainUserState extends State<MainUser> {
         });
       },
       leading: Icon(Icons.home),
-      title: Text('แสดงร้านค้า'),
-      subtitle: Text('แสดงร้านค้า ที่สามารถสั่งอาหารได้'),
+      title: Text('ສະແດງຮ້ານຄ້າ'),
+      subtitle: Text('ສະແດງຮ້ານຄ້າ ທີ່ສາມາດສັ່ງໄດ້'),
     );
   }
 
+  // ListTile groupMenu() => ListTile(
+  //       leading: Icon(Icons.fastfood),
+  //       title: Text('ໝວດສິນຄ້າ'),
+  //       subtitle: Text('ລາການໝວດສິນຄ້າຂອງທ່າ'),
+  //       onTap: () {
+  //         setState(() {
+  //           currentWidget = HomeGroup();
+  //         });
+  //         Navigator.pop(context);
+  //       },
+  //     );
+  // ListTile body() => ListTile(
+  //       leading: Icon(Icons.fastfood),
+  //       title: Text('body'),
+  //       subtitle: Text('ລາການໝວດສິນຄ້າຂອງທ່າ'),
+  //       onTap: () {
+  //         setState(() {
+  //           currentWidget = Bodys();
+  //         });
+  //         Navigator.pop(context);
+  //       },
+  //     );
   ListTile menuStatusFoodOrder() {
     return ListTile(
       onTap: () {
@@ -91,15 +114,16 @@ class _MainUserState extends State<MainUser> {
           currentWidget = ShowStatusFoodOrder();
         });
       },
-      leading: Icon(Icons.restaurant_menu),
-      title: Text('แสดงรายการอาหารที่สั่ง'),
-      subtitle: Text('แสดงรายการอาหารที่สั่ง และ หรือ ดูสถานะของอาหารที่สั่ง'),
+      leading: Icon(Icons.bookmark_border),
+      title: Text('ສະແດງລາຍການສິນຄ້າທີ່ສັ່ງ'),
+      subtitle:
+          Text('ສະແດງລາຍການສິນຄ້າທີ່ສັ່ງ ແລະ ເບີ່ງຂໍ້ມູນລາຍການສິນຄ້າທີ່ສັ່ງ'),
     );
   }
 
   Widget menuSignOut() {
     return Container(
-      decoration: BoxDecoration(color: Colors.red.shade700),
+      decoration: BoxDecoration(color: Colors.green),
       child: ListTile(
         onTap: () => signOutProcess(context),
         leading: Icon(
@@ -110,10 +134,10 @@ class _MainUserState extends State<MainUser> {
           'Sign Out',
           style: TextStyle(color: Colors.white),
         ),
-        subtitle: Text(
-          'การออกจากแอพ',
-          style: TextStyle(color: Colors.white),
-        ),
+        // subtitle: Text(
+        //   'ອອກ',
+        //  style: TextStyle(color: Colors.white),
+        // ),
       ),
     );
   }
@@ -135,9 +159,9 @@ class _MainUserState extends State<MainUser> {
 
   Widget menuCart() {
     return ListTile(
-      leading: Icon(Icons.add_shopping_cart),
-      title: Text('ตะกร้า ของฉัน'),
-      subtitle: Text('รายการอาหาร ที่อยู่ใน ตะกร้า ยังไม่ได้ Order'),
+      leading: Icon(Icons.shopping_cart),
+      title: Text('ກະຕ່າ'),
+      subtitle: Text('ສິຄ້າທີເລຶອກ ແຕ່ຍັງບໍ່ທັນສັ່ງ'),
       onTap: () {
         Navigator.pop(context);
         MaterialPageRoute route = MaterialPageRoute(

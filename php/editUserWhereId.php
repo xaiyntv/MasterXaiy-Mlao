@@ -1,8 +1,7 @@
 <?php
-header("content-type:text/javascript;charset=utf-8");
-error_reporting(0);
+include 'connected.php';
+header("Access-Control-Allow-Origin: *");
 error_reporting(E_ERROR | E_PARSE);
-$link = mysqli_connect('localhost', 'root', 'EWTCeasy4com', "UngFood");
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -31,7 +30,7 @@ if (isset($_GET)) {
 		
 		
 							
-		$sql = "UPDATE `userTABLE` SET `NameShop` = '$NameShop', `Address` = '$Address', `Phone` = '$Phone', `UrlPicture` = '$UrlPicture', `Lat` = '$Lat', `Lng` = '$Lng' WHERE id = '$id'";
+		$sql = "UPDATE `usertable` SET `NameShop` = '$NameShop', `Address` = '$Address', `Phone` = '$Phone', `UrlPicture` = '$UrlPicture', `Lat` = '$Lat', `Lng` = '$Lng' WHERE id = '$id'";
 
 		$result = mysqli_query($link, $sql);
 

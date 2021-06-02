@@ -1,6 +1,7 @@
 class FoodModel {
   String id;
   String idShop;
+  String idGrp;
   String nameFood;
   String pathImage;
   String price;
@@ -9,6 +10,7 @@ class FoodModel {
   FoodModel(
       {this.id,
       this.idShop,
+      this.idGrp,
       this.nameFood,
       this.pathImage,
       this.price,
@@ -17,6 +19,7 @@ class FoodModel {
   FoodModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     idShop = json['idShop'];
+    idGrp = json['idGrp'];
     nameFood = json['NameFood'];
     pathImage = json['PathImage'];
     price = json['Price'];
@@ -27,6 +30,7 @@ class FoodModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['idShop'] = this.idShop;
+    data['idGrp'] = this.idGrp;
     data['NameFood'] = this.nameFood;
     data['PathImage'] = this.pathImage;
     data['Price'] = this.price;
@@ -34,4 +38,3 @@ class FoodModel {
     return data;
   }
 }
-

@@ -1,11 +1,9 @@
 
 
 <?php
-
-header("content-type:text/javascript;charset=utf-8");
-error_reporting(0);
-error_reporting(E_ERROR | E_PARSE);
-// $link = mysqli_connect('localhost', 'androidh_sam', 'Abc12345', "androidh_sam");
+	include 'connected.php';
+	header("Access-Control-Allow-Origin: *");
+	error_reporting(E_ERROR | E_PARSE);
 
 if (isset($_GET)) {
 	if ($_GET['isAdd'] == 'true') {

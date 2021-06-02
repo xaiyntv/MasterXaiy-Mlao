@@ -2,12 +2,17 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:ungfood/utility/my_style.dart';
-import 'package:ungfood/utility/normal_dialog.dart';
-import 'package:ungfood/utility/signout_process.dart';
-import 'package:ungfood/widget/infomation_shop.dart';
-import 'package:ungfood/widget/list_food_manu_shop.dart';
-import 'package:ungfood/widget/order_list_shop.dart';
+import 'package:mlao/shop/list_groupfood_menu_shop.dart';
+// import 'package:mlao/user/listMenu.dart';
+import 'package:mlao/utility/my_style.dart';
+import 'package:mlao/utility/normal_dialog.dart';
+import 'package:mlao/utility/signout_process.dart';
+import 'package:mlao/shop/infomation_shop.dart';
+import 'package:mlao/shop/list_food_manu_shop.dart';
+// import 'package:mlao/widget/list_groupfood_menu_shop.dart';
+// import 'package:mlao/user/group.dart';
+import 'package:mlao/shop/order_list_shop.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainShop extends StatefulWidget {
   @override
@@ -18,10 +23,21 @@ class _MainShopState extends State<MainShop> {
   // Field
   Widget currentWidget = OrderListShop();
 
+  String nameUser;
+
   @override
   void initState() {
     super.initState();
     aboutNotification();
+
+    findUser();
+  }
+
+  Future<Null> findUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      nameUser = preferences.getString('Name');
+    });
   }
 
   Future<Null> aboutNotification() async {
@@ -29,6 +45,7 @@ class _MainShopState extends State<MainShop> {
       print('aboutNoti Work Android');
 
       FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+      // ignore: await_only_futures
       await firebaseMessaging.configure(
         onLaunch: (message) async {
           print('Noti onLaunch');
@@ -73,18 +90,31 @@ class _MainShopState extends State<MainShop> {
         child: ListView(
           children: <Widget>[
             showHead(),
+            // listMenu(),
             homeMenu(),
+            groupFoodMenu(),
             foodMenu(),
             infomationMenu(),
             signOutMenu(),
           ],
         ),
       );
+  // ListTile listMenu() {
+  //   return ListTile(
+  //     leading: Icon(Icons.menu),
+  //     title: Text('ເມນູ'),
+  //     onTap: () {
+  //       Navigator.pop(context);
+  //       MaterialPageRoute route =
+  //           MaterialPageRoute(builder: (value) => ListMenu());
+  //       Navigator.push(context, route);
+  //     },
+  //   );
+  // }
 
   ListTile homeMenu() => ListTile(
         leading: Icon(Icons.home),
-        title: Text('รายการอาหารที่ ลูกค้าสั่ง'),
-        subtitle: Text('รายการอาหารที่ยังไม่ได้ ทำส่งลูกค้า'),
+        title: Text('ລາຍການສິນຄ້າທີ່ລູກຄ້າສັ່ງ'),
         onTap: () {
           setState(() {
             currentWidget = OrderListShop();
@@ -92,11 +122,21 @@ class _MainShopState extends State<MainShop> {
           Navigator.pop(context);
         },
       );
-
+  ListTile groupFoodMenu() => ListTile(
+        leading: Icon(Icons.fastfood),
+        title: Text('ໝວດສິນຄ້າ'),
+        subtitle: Text('ລາການໝວດສິນຄ້າຂອງທ່າ'),
+        onTap: () {
+          setState(() {
+            currentWidget = ListGroupFoodMenu();
+          });
+          Navigator.pop(context);
+        },
+      );
   ListTile foodMenu() => ListTile(
         leading: Icon(Icons.fastfood),
-        title: Text('รายการอาหาร'),
-        subtitle: Text('รายการอาหาร ของร้าน'),
+        title: Text('ລາການສິນຄ້າ'),
+        subtitle: Text('ລາການສິນຄ້າ ຂອງຮ້ານ'),
         onTap: () {
           setState(() {
             currentWidget = ListFoodMenuShop();
@@ -107,8 +147,8 @@ class _MainShopState extends State<MainShop> {
 
   ListTile infomationMenu() => ListTile(
         leading: Icon(Icons.info),
-        title: Text('รายละเอียด ของร้าน'),
-        subtitle: Text('รายละเอียด ของร้าน พร้อม Edit'),
+        title: Text('ຂໍ້ມູນຮ້ານ'),
+        subtitle: Text('ຂໍ້ມູນຮ້ານ ພ້ອມ Edit'),
         onTap: () {
           setState(() {
             currentWidget = InfomationShop();
@@ -119,8 +159,8 @@ class _MainShopState extends State<MainShop> {
 
   ListTile signOutMenu() => ListTile(
         leading: Icon(Icons.exit_to_app),
-        title: Text('Sign Out'),
-        subtitle: Text('Sign Out และ กลับไป หน้าแรก'),
+        title: Text('ອອກ'),
+        subtitle: Text('ອອກ ເພຶ່ອ ກັບໄປສູ່ ໜ້າທຳອິດ'),
         onTap: () => signOutProcess(context),
       );
 

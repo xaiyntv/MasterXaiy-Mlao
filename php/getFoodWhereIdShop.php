@@ -1,9 +1,7 @@
 <?php
-header("content-type:text/javascript;charset=utf-8");
-error_reporting(0);
+include 'connected.php';
+header("Access-Control-Allow-Origin: *");
 error_reporting(E_ERROR | E_PARSE);
-$link = mysqli_connect('localhost', 'root', 'EWTCeasy4com', "UngFood");
-
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
@@ -22,7 +20,7 @@ if (isset($_GET)) {
 				
 		$idShop = $_GET['idShop'];
 
-		$result = mysqli_query($link, "SELECT * FROM foodTABLE WHERE idShop = '$idShop'");
+		$result = mysqli_query($link, "SELECT * FROM foodtable WHERE idShop = '$idShop'");
 
 		if ($result) {
 
@@ -35,7 +33,7 @@ if (isset($_GET)) {
 
 		} //if
 
-	} else echo "Welcome Master UNG";	// if2
+	} else echo "Welcome Master XAIY";	// if2
    
 }	// if1
 

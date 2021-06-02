@@ -17,10 +17,10 @@ class MyAPI {
   int calculateTransport(double distance) {
     int transport;
     if (distance < 1.0) {
-      transport = 35;
+      transport = 10000;
       return transport;
     } else {
-      transport = 35 + (distance - 1).round() * 10;
+      transport = 10000 + (distance - 1).round() * 10;
       return transport;
     }
   }

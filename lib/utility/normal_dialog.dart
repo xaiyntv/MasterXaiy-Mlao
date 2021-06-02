@@ -9,7 +9,7 @@ Future<void> normalDialog(BuildContext context, String message) async {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            FlatButton(
+            ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   'OK',
@@ -36,7 +36,7 @@ Future<void> normalDialog2(
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            FlatButton(
+            ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   'OK',

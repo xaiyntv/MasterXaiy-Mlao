@@ -2,7 +2,7 @@
 header("content-type:text/javascript;charset=utf-8");
 error_reporting(0);
 error_reporting(E_ERROR | E_PARSE);
-$link = mysqli_connect('localhost', 'root', 'EWTCeasy4com', "UngFood");
+$link = mysqli_connect('localhost', 'root', 'xaiy@9249', "mlao");
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -25,7 +25,7 @@ if (isset($_GET)) {
 		$Password = $_GET['Password'];
 		$ChooseType = $_GET['ChooseType'];
 							
-		$sql = "INSERT INTO `userTABLE`(`id`, `ChooseType`, `Name`, `User`, `Password`, `NameShop`, `Address`, `Phone`, `UrlPicture`, `Lat`, `Lng`, `Token`) VALUES (Null, '$ChooseType', '$Name','$User','$Password', '', '', '', '', '', '', '')";
+		$sql = "INSERT INTO `usertable`(`id`, `ChooseType`, `Name`, `User`, `Password`, `NameShop`, `Address`, `Phone`, `UrlPicture`, `Lat`, `Lng`, `Token`) VALUES (Null, '$ChooseType', '$Name','$User','$Password', '', '', '', '', '', '', '')";
 
 		$result = mysqli_query($link, $sql);
 

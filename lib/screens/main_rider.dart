@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ungfood/utility/my_style.dart';
-import 'package:ungfood/utility/signout_process.dart';
+import 'package:mlao/utility/my_style.dart';
+import 'package:mlao/utility/signout_process.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainRider extends StatefulWidget {
   @override
@@ -8,7 +9,15 @@ class MainRider extends StatefulWidget {
 }
 
 class _MainRiderState extends State<MainRider> {
+  String nameUser;
+
   @override
+  void initState() {
+    super.initState();
+
+    findUser();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -28,12 +37,16 @@ class _MainRiderState extends State<MainRider> {
         child: ListView(
           children: <Widget>[
             showHead(),
-            
           ],
         ),
       );
 
-  
+  Future<Null> findUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      nameUser = preferences.getString('Name');
+    });
+  }
 
   UserAccountsDrawerHeader showHead() {
     return UserAccountsDrawerHeader(

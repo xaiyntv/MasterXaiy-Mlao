@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ungfood/screens/show_cart.dart';
+import 'package:mlao/shop/show_cart.dart';
 
 class MyStyle {
-  Color darkColor = Colors.blue.shade900;
+  Color darkColor = Colors.green;
   Color primaryColor = Colors.green;
 
   Widget iconShowCart(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.add_shopping_cart),
+      icon: Icon(Icons.shopping_cart),
       onPressed: () {
         MaterialPageRoute route = MaterialPageRoute(
           builder: (context) => ShowCart(),
@@ -17,6 +17,13 @@ class MyStyle {
     );
   }
 
+// Widget horizontals () {
+//     return  Container(
+//             height: 100,
+//       child: CircularProgressIndicator(),
+//     );
+//   }
+
   Widget showProgress() {
     return Center(
       child: CircularProgressIndicator(),
@@ -24,17 +31,26 @@ class MyStyle {
   }
 
   TextStyle mainTitle = TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.purple,
-  );
-
-  TextStyle mainH2Title = TextStyle(
     fontSize: 16.0,
-    fontWeight: FontWeight.bold,
+    // fontWeight: FontWeight.bold,
+    color: Colors.green,
+  );
+  TextStyle h2Style() => TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: Colors.green.shade700,
+      );
+  TextStyle mainH2Title = TextStyle(
+    fontSize: 14.0,
+    // fontWeight: FontWeight.bold,
     color: Colors.green.shade700,
   );
 
+  TextStyle h1Style() => TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: Colors.green.shade700,
+      );
   BoxDecoration myBoxDecoration(String namePic) {
     return BoxDecoration(
       image: DecorationImage(
@@ -56,7 +72,7 @@ class MyStyle {
         child: Text(
           string,
           style: TextStyle(
-            fontSize: 24.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -68,7 +84,7 @@ class MyStyle {
         title,
         style: TextStyle(
           fontSize: 24.0,
-          color: Colors.blue.shade900,
+          color: Colors.green,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -77,7 +93,7 @@ class MyStyle {
         title,
         style: TextStyle(
           fontSize: 18.0,
-          color: Colors.blue.shade900,
+          color: Colors.green,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -86,7 +102,7 @@ class MyStyle {
         title,
         style: TextStyle(
           fontSize: 16.0,
-          color: Colors.blue.shade900,
+          color: Colors.green,
           fontWeight: FontWeight.w500,
         ),
       );
@@ -94,7 +110,7 @@ class MyStyle {
   Text showTitleH3White(String title) => Text(
         title,
         style: TextStyle(
-          fontSize: 16.0,
+          fontSize: 14.0,
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
@@ -125,5 +141,12 @@ class MyStyle {
     );
   }
 
-  MyStyle();
+  Container showImages() {
+    return Container(
+      // height: 60,
+      child: Image.asset('images/1111.png'),
+    );
+  }
+
+  // MyStyle();
 }

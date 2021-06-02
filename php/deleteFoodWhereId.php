@@ -1,8 +1,7 @@
 <?php
-header("content-type:text/javascript;charset=utf-8");
-error_reporting(0);
-error_reporting(E_ERROR | E_PARSE);
-$link = mysqli_connect('localhost', 'root', 'EWTCeasy4com', "UngFood");
+	include 'connected.php';
+	header("Access-Control-Allow-Origin: *");
+	error_reporting(E_ERROR | E_PARSE);
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -22,7 +21,7 @@ if (isset($_GET)) {
 				
 		$id = $_GET['id'];		
 							
-		$sql = "DELETE FROM `foodTABLE` WHERE id = '$id'";
+		$sql = "DELETE FROM `foodtble` WHERE id = '$id'";
 
 		$result = mysqli_query($link, $sql);
 
@@ -32,7 +31,7 @@ if (isset($_GET)) {
 			echo "false";
 		}
 
-	} else echo "Welcome Master UNG";
+	} else echo "Welcome Master xaiy";
    
 }
 	mysqli_close($link);

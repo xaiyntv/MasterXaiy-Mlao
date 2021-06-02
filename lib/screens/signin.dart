@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ungfood/model/user_model.dart';
-import 'package:ungfood/screens/main_rider.dart';
-import 'package:ungfood/screens/main_shop.dart';
-import 'package:ungfood/screens/main_user.dart';
-import 'package:ungfood/utility/my_constant.dart';
-import 'package:ungfood/utility/my_style.dart';
-import 'package:ungfood/utility/normal_dialog.dart';
+import 'package:mlao/model/user_model.dart';
+import 'package:mlao/screens/main_rider.dart';
+import 'package:mlao/screens/main_shop.dart';
+import 'package:mlao/screens/main_user.dart';
+import 'package:mlao/utility/my_constant.dart';
+import 'package:mlao/utility/my_style.dart';
+import 'package:mlao/utility/normal_dialog.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -19,12 +19,33 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   // Field
   String user, password;
+  bool statusLogin = true;
+
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    checkStatusLogin();
+  }
+
+  Future<Null> checkStatusLogin() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String type = preferences.getString('chooseType');
+      if (type != null) {
+        user = preferences.getString('user');
+        password = preferences.getString('password');
+        statusLogin = false;
+        checkAuthen();
+      }
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: Text('ເຂົ້າສູ່ລະບົບ'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -41,7 +62,7 @@ class _SignInState extends State<SignIn> {
               children: <Widget>[
                 MyStyle().showLogo(),
                 MyStyle().mySizebox(),
-                MyStyle().showTitle('Ung Food'),
+                MyStyle().showTitle('MLAO'),
                 MyStyle().mySizebox(),
                 userForm(),
                 MyStyle().mySizebox(),
@@ -58,20 +79,19 @@ class _SignInState extends State<SignIn> {
 
   Widget loginButton() => Container(
         width: 250.0,
-        child: RaisedButton(
-          color: MyStyle().darkColor,
+        child: ElevatedButton(
           onPressed: () {
             if (user == null ||
                 user.isEmpty ||
                 password == null ||
                 password.isEmpty) {
-              normalDialog(context, 'มีช่องว่าง กรุณากรอกให้ครบ คะ');
+              normalDialog(context, 'ກະລຸນາໃສ່ຂໍ້ມູນໃຫ້ຄົບ');
             } else {
               checkAuthen();
             }
           },
           child: Text(
-            'Login',
+            'ເຂົ້າສູ່ລະບົບ',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -79,7 +99,7 @@ class _SignInState extends State<SignIn> {
 
   Future<Null> checkAuthen() async {
     String url =
-        '${MyConstant().domain}/UngFood/getUserWhereUser.php?isAdd=true&User=$user';
+        '${MyConstant().domain}/mlao/getUserWhereUser.php?isAdd=true&User=$user';
     print('url ===>> $url');
     try {
       Response response = await Dio().get(url);
@@ -101,7 +121,7 @@ class _SignInState extends State<SignIn> {
             normalDialog(context, 'Error');
           }
         } else {
-          normalDialog(context, 'Password ผิด กรุณาลองใหม่ ');
+          normalDialog(context, 'ຜູ້ໃຊ້ແລະລະຫັດຜ່ານບໍ່ຖຶກຕ້ອງກະລຸນາລອງໄໝ່ ');
         }
       }
     } catch (e) {
@@ -131,7 +151,7 @@ class _SignInState extends State<SignIn> {
               color: MyStyle().darkColor,
             ),
             labelStyle: TextStyle(color: MyStyle().darkColor),
-            labelText: 'User :',
+            labelText: 'ຜູ້ໃຊ້ :',
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyStyle().darkColor)),
             focusedBorder: OutlineInputBorder(
@@ -151,7 +171,7 @@ class _SignInState extends State<SignIn> {
               color: MyStyle().darkColor,
             ),
             labelStyle: TextStyle(color: MyStyle().darkColor),
-            labelText: 'Password :',
+            labelText: 'ລະຫັດຜ່ານ :',
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyStyle().darkColor)),
             focusedBorder: OutlineInputBorder(

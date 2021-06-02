@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:ungfood/utility/my_constant.dart';
-import 'package:ungfood/utility/my_style.dart';
-import 'package:ungfood/utility/normal_dialog.dart';
+import 'package:mlao/utility/my_constant.dart';
+import 'package:mlao/utility/my_style.dart';
+import 'package:mlao/utility/normal_dialog.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('ລົງທະບຽນ'),
       ),
       body: ListView(
         padding: EdgeInsets.all(30.0),
@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
           MyStyle().mySizebox(),
           passwordForm(),
           MyStyle().mySizebox(),
-          MyStyle().showTitleH2('ชนิดของสมาชิก :'),
+          MyStyle().showTitleH2('ຊະນິດຂອງຜູ້ໃຊ້ງານ :'),
           MyStyle().mySizebox(),
           userRadio(),
           shopRadio(),
@@ -45,8 +45,8 @@ class _SignUpState extends State<SignUp> {
 
   Widget registerButton() => Container(
         width: 250.0,
-        child: RaisedButton(
-          color: MyStyle().darkColor,
+        child: ElevatedButton(
+          // color: MyStyle().darkColor,
           onPressed: () {
             print(
                 'name = $name, user = $user, password = $password, chooseType = $chooseType');
@@ -57,50 +57,49 @@ class _SignUpState extends State<SignUp> {
                 password == null ||
                 password.isEmpty) {
               print('Have Space');
-              normalDialog(context, 'มีช่องว่าง คะ กรุณากรอกทุกช่อง คะ');
+              normalDialog(context, 'ມີ່ຊ່ອງວ່າງ ກະລຸນາໃສຂໍ້ມູນໃຫ້ຄົບ');
             } else if (chooseType == null) {
-              normalDialog(context, 'โปรด เลือกชนิดของผู้สมัคร');
+              normalDialog(context, 'ກະລຸນາເລຶອກ ສະນິດຂອງຜູ້ສະໝັກກ່ນ');
             } else {
               checkUser();
             }
           },
           child: Text(
-            'Register',
+            'ສະໝັກ',
             style: TextStyle(color: Colors.white),
           ),
         ),
       );
 
-      Future<Null> checkUser()async{
-        String url = '${MyConstant().domain}/UngFood/getUserWhereUser.php?isAdd=true&User=$user';
-        try {
-          Response response = await Dio().get(url);
-          if (response.toString() == 'null') {
-            registerThread();
-          } else {
-            normalDialog(context, 'User นี่ $user มีคนอื่นใช้ไปแล้ว กรุณาเปลี่ยน User ใหม่');
-          }
-        } catch (e) {
-        }
+  Future<Null> checkUser() async {
+    String url =
+        '${MyConstant().domain}/mlao/getUserWhereUser.php?isAdd=true&User=$user';
+    try {
+      Response response = await Dio().get(url);
+      if (response.toString() == 'null') {
+        registerThread();
+      } else {
+        normalDialog(
+            context, 'ຜູ້ໃຊ້ນີ້ $user ມີຄົນອື່ນໃຊ້ແລ້ວ ກະລຸນາປ່ຽນຜູ້ໃຊ້ໄໝ່');
       }
+    } catch (e) {}
+  }
 
-      Future<Null> registerThread()async{
-        String url = '${MyConstant().domain}/UngFood/addUser.php?isAdd=true&Name=$name&User=$user&Password=$password&ChooseType=$chooseType';
+  Future<Null> registerThread() async {
+    String url =
+        '${MyConstant().domain}/mlao/addUser.php?isAdd=true&Name=$name&User=$user&Password=$password&ChooseType=$chooseType';
 
-        try {
-          Response response = await Dio().get(url);
-          print('res = $response');
+    try {
+      Response response = await Dio().get(url);
+      print('res = $response');
 
-          if (response.toString() == 'true') {
-            Navigator.pop(context);
-          } else {
-            normalDialog(context, 'ไม่สามารถ สมัครได้ กรุณาลองใหม่ คะ');
-          }
-
-        } catch (e) {
-        }
-
+      if (response.toString() == 'true') {
+        Navigator.pop(context);
+      } else {
+        normalDialog(context, 'ບໍ່ສາມາດສະໝັກໄດ້ ກະລຸນາລອງໄໝ່');
       }
+    } catch (e) {}
+  }
 
   Widget userRadio() => Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -119,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                   },
                 ),
                 Text(
-                  'ผู้สั่งอาหาร',
+                  'ລູກຄ້າ',
                   style: TextStyle(color: MyStyle().darkColor),
                 )
               ],
@@ -145,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                   },
                 ),
                 Text(
-                  'เจ้าของร้านอาหาร',
+                  'ເຈົ້າຂອງຮ້ານ',
                   style: TextStyle(color: MyStyle().darkColor),
                 )
               ],
@@ -171,7 +170,7 @@ class _SignUpState extends State<SignUp> {
                   },
                 ),
                 Text(
-                  'ผู้ส่งอาหาร',
+                  'ຜູ້ສົ່ງອາຫານ',
                   style: TextStyle(color: MyStyle().darkColor),
                 )
               ],
@@ -256,7 +255,7 @@ class _SignUpState extends State<SignUp> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        MyStyle().showTitle('Ung Food'),
+        MyStyle().showTitle('mlao'),
       ],
     );
   }
