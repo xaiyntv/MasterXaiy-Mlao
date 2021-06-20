@@ -88,68 +88,78 @@ class _ListFoodMenuShopState extends State<ListFoodMenuShop> {
 
   Widget showListFood() => ListView.builder(
         itemCount: foodModels.length,
-        itemBuilder: (context, index) => Row(
-          children: <Widget>[
-            Container(
-              // width: 90.0,
-              // height: 100.0,
-              padding: EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.3,
-              child: Image.network(
-                '${MyConstant().domain}${foodModels[index].pathImage}',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: MediaQuery.of(context).size.width * 0.2,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      foodModels[index].nameFood,
-                      style: MyStyle().mainTitle,
-                    ),
-                    Text(foodModels[index].detail),
-                    Text(
-                      'ລາຄາ ${foodModels[index].price} ກີບ',
-                      style: MyStyle().mainH2Title,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.green,
-                          ),
-                          onPressed: () {
-                            MaterialPageRoute route = MaterialPageRoute(
-                              builder: (context) => EditFoodMenu(
-                                foodModel: foodModels[index],
-                              ),
-                            );
-                            Navigator.push(context, route)
-                                .then((value) => readFoodMenu());
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
-                          onPressed: () => deleateFood(foodModels[index]),
-                        ),
-                      ],
-                    ),
-                  ],
+        itemBuilder: (context, index) => Card(
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                child: Container(
+                  // width: 90.0,
+                  // height: 100.0,
+                  padding: EdgeInsets.all(10.0),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.width * 0.3,
+                  child: Image.network(
+                    '${MyConstant().domain}${foodModels[index].pathImage}',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
-            ),
-          ],
+              Container(
+                padding: EdgeInsets.all(10.0),
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.width * 0.3,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        foodModels[index].nameFood,
+                        style: MyStyle().mainTitle,
+                      ),
+                      // Text(foodModels[index].detail),
+                      Row(
+                        children: [
+                          Text(
+                            'ລາຄາ ${foodModels[index].price} ກີບ/',
+                            style: MyStyle().mainH2Title,
+                          ),
+                          Text(foodModels[index].detail),
+                        ],
+                      ),
+                      Text(foodModels[index].status),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                              MaterialPageRoute route = MaterialPageRoute(
+                                builder: (context) => EditFoodMenu(
+                                  foodModel: foodModels[index],
+                                ),
+                              );
+                              Navigator.push(context, route)
+                                  .then((value) => readFoodMenu());
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () => deleateFood(foodModels[index]),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
 

@@ -24,7 +24,6 @@ class _MainShopState extends State<MainShop> {
   Widget currentWidget = OrderListShop();
 
   String nameUser;
-
   @override
   void initState() {
     super.initState();
@@ -155,8 +154,14 @@ class _MainShopState extends State<MainShop> {
     return UserAccountsDrawerHeader(
       decoration: MyStyle().myBoxDecoration('shop.jpg'),
       currentAccountPicture: MyStyle().showLogo(),
-      accountName: Text('Name Shop'),
-      accountEmail: Text('Login'),
+      accountName: Text(
+        nameUser == null ? 'Name Login' : nameUser,
+        style: TextStyle(color: MyStyle().darkColor),
+      ),
+      accountEmail: Text(
+        'ກຳລັງໃຊ້ງານ',
+        style: TextStyle(color: MyStyle().primaryColor),
+      ),
     );
   }
 }

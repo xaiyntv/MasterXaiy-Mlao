@@ -70,12 +70,15 @@ class _InfomationShopState extends State<InfomationShop> {
           //  MyStyle().showTitleH2('ຂໍ້ມູນຮ້ານ ${userModel.nameShop}'),
           MyStyle().showTitleH2('ຂໍ້ມູນຮ້ານ ${userModel.nameShop}'),
           showImage(),
+
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MyStyle().showTitleH2('ທີຢູ່'),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(userModel.address),
             ],

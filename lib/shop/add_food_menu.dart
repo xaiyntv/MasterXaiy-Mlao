@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +15,7 @@ class AddFoodMenu extends StatefulWidget {
 
 class _AddFoodMenuState extends State<AddFoodMenu> {
   File file;
-  String nameFood, price, detail;
+  String nameFood, price, detail, idGrp, status;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +35,14 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
             MyStyle().mySizebox(),
             detailForm(),
             MyStyle().mySizebox(),
+            groupForm(),
+            MyStyle().mySizebox(),
+            //
+            MyStyle().showTitleH2('ຊະນິດຂອງຜູ້ໃຊ້ງານ :'),
+            MyStyle().mySizebox(),
+            onRadio(),
+            offRadio(),
+            //
             saveButton()
           ],
         ),
@@ -56,7 +63,9 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
               price == null ||
               price.isEmpty ||
               detail == null ||
-              detail.isEmpty) {
+              detail.isEmpty ||
+              idGrp == null ||
+              idGrp.isEmpty) {
             normalDialog(context, 'ກະລຸນາໃສ່ຂໍ້ມູນໃຫ້ຄົບ');
           } else {
             uploadFoodAndInsertData();
@@ -94,7 +103,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
         String idShop = preferences.getString('id');
 
         String urlInsertData =
-            '${MyConstant().domain}/mlao/addFood.php?isAdd=true&idShop=$idShop&NameFood=$nameFood&PathImage=$urlPathImage&Price=$price&Detail=$detail';
+            '${MyConstant().domain}/mlao/addFood.php?isAdd=true&idShop=$idShop&NameFood=$nameFood&PathImage=$urlPathImage&Price=$price&Detail=$detail&idGrp=$idGrp&Status=$status';
         await Dio().get(urlInsertData).then((value) => Navigator.pop(context));
       });
     } catch (e) {}
@@ -129,11 +138,32 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
         width: 250.0,
         child: TextField(
           onChanged: (value) => detail = value.trim(),
-          keyboardType: TextInputType.multiline,
-          maxLines: 3,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.details),
-            labelText: 'ຂໍ້ມູນສິນຄ້າ',
+            prefixIcon: Icon(Icons.merge_type),
+            labelText: 'ຫົວໜ່ວຍ',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      );
+  Widget groupForm() => Container(
+        width: 250.0,
+        child: TextField(
+          onChanged: (value) => idGrp = value.trim(),
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.category),
+            labelText: 'ໝວດ',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      );
+
+  Widget statusForm() => Container(
+        width: 250.0,
+        child: TextField(
+          onChanged: (value) => status = value.trim(),
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.star_outline_sharp),
+            labelText: 'ສະຖານະ',
             border: OutlineInputBorder(),
           ),
         ),
@@ -166,8 +196,8 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
     try {
       var object = await ImagePicker().getImage(
         source: source,
-        maxWidth: 800.0,
-        maxHeight: 800.0,
+        maxWidth: 400.0,
+        maxHeight: 400.0,
       );
       setState(() {
         file = File(object.path);
@@ -185,4 +215,55 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
       ),
     );
   }
+
+  Widget onRadio() => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            width: 250.0,
+            child: Row(
+              children: <Widget>[
+                Radio(
+                  value: 'on',
+                  groupValue: status,
+                  onChanged: (value) {
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                ),
+                Text(
+                  'ສິນຄ້າໝົດຊົ່ວຄາວ',
+                  style: TextStyle(color: MyStyle().darkColor),
+                )
+              ],
+            ),
+          ),
+        ],
+      );
+  Widget offRadio() => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            width: 250.0,
+            child: Row(
+              children: <Widget>[
+                Radio(
+                  value: 'off',
+                  groupValue: status,
+                  onChanged: (value) {
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                ),
+                Text(
+                  'ມີສິນຄ້າ',
+                  style: TextStyle(color: MyStyle().darkColor),
+                )
+              ],
+            ),
+          ),
+        ],
+      );
 }

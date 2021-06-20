@@ -88,61 +88,64 @@ class _ListGroupFoodMenuState extends State<ListGroupFoodMenu> {
 
   Widget showListGroupFood() => ListView.builder(
         itemCount: groupFoodModels.length,
-        itemBuilder: (context, index) => Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.3,
-              child: Image.network(
-                '${MyConstant().domain}${groupFoodModels[index].pathImage}',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: MediaQuery.of(context).size.width * 0.2,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      groupFoodModels[index].nameGroup,
-                      style: MyStyle().mainTitle,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.green,
-                          ),
-                          onPressed: () {
-                            MaterialPageRoute route = MaterialPageRoute(
-                              builder: (context) => EditGoupFoodMenu(
-                                groupFoodModel: groupFoodModels[index],
-                              ),
-                            );
-                            Navigator.push(context, route)
-                                .then((value) => readGroupFoodMenu());
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
-                          onPressed: () => deleateFood(groupFoodModels[index]),
-                        ),
-                      ],
-                    ),
-                  ],
+        itemBuilder: (context, index) => Card(
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10.0),
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.width * 0.3,
+                child: Image.network(
+                  '${MyConstant().domain}${groupFoodModels[index].pathImage}',
+                  // fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+              Container(
+                padding: EdgeInsets.all(10.0),
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.width * 0.3,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        groupFoodModels[index].nameGroup,
+                        style: MyStyle().mainTitle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                              MaterialPageRoute route = MaterialPageRoute(
+                                builder: (context) => EditGoupFoodMenu(
+                                  groupFoodModel: groupFoodModels[index],
+                                ),
+                              );
+                              Navigator.push(context, route)
+                                  .then((value) => readGroupFoodMenu());
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () =>
+                                deleateFood(groupFoodModels[index]),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
 

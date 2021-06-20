@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mlao/model/user_model.dart';
 import 'package:mlao/screens/main_rider.dart';
@@ -30,6 +31,47 @@ class _HomeState extends State<Home> {
     super.initState();
     checkStatusLogin();
     findUser();
+    checkPreferance();
+  }
+
+  Future<Null> checkPreferance() async {
+    try {
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+      String token = await firebaseMessaging.getToken();
+      print('token ====>>> $token');
+
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String chooseType = preferences.getString('ChooseType');
+      String idLogin = preferences.getString('id');
+      print('idLogin = $idLogin');
+
+      if (idLogin != null && idLogin.isNotEmpty) {
+        String url =
+            '${MyConstant().domain}/mlao/editTokenWhereId.php?isAdd=true&id=$idLogin&Token=$token';
+        await Dio()
+            .get(url)
+            .then((value) => print('###### Update Token Success #####'));
+      }
+
+      // if (chooseType != null && chooseType.isNotEmpty) {
+      if (chooseType == 'ຜູ້ໃຊ້') {
+        routeToService(MainUser());
+      } else if (chooseType == 'ຮ້ານຄ້າ') {
+        routeToService(MainShop());
+      } else if (chooseType == 'ຜູ້ສົງອາຫານ') {
+        routeToService(MainRider());
+      } else {
+        // normalDialog(context, 'Error User Type');
+      }
+      // }
+    } catch (e) {}
+  }
+
+  void routeToService(Widget myWidget) {
+    MaterialPageRoute route = MaterialPageRoute(
+      builder: (context) => myWidget,
+    );
+    Navigator.pushAndRemoveUntil(context, route, (route) => false);
   }
 
   Future<Null> findUser() async {

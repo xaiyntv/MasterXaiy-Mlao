@@ -236,7 +236,6 @@ class _FoodMenuState extends State<FoodMenu> {
   }
 
   Future<Null> addOrderToCart(int index) async {
-    // String nameShop = userModels[index].nameShop;
     // String nameShop = userModel.nameShop;
     String idFood = foodModels[index].id;
     String nameFood = foodModels[index].nameFood;

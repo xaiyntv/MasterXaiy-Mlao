@@ -123,6 +123,8 @@ class _RegisterState extends State<Register> {
       print('res = $response');
       if (response.toString() == 'true') {
         Navigator.pop(context);
+        normalDialog(context,
+            'ຜູ້ໃຊ້ນີ້ $user ສະໝັກໄດ້ແລ້ວ ກະລຸນາໃສ່ຂໍ້ມູນທີສະໝັກເພຶ່ອເຂົ້າສູ່ລະບົບ');
       } else {
         normalDialog(context, 'ບໍ່ສາມາດສະໝັກໄດ້ ກະລຸນາລອງໄໝ່');
       }

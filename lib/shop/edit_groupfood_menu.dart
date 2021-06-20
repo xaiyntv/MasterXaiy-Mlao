@@ -99,7 +99,7 @@ class _EditGoupFoodMenuState extends State<EditGoupFoodMenu> {
   Future<Null> editValueOnMySQL() async {
     String id = groupFoodModel.id;
     String url =
-        '${MyConstant().domain}/mlao/editGroupFoodWhereId.php?isAdd=true&id=$id&NameGroupFood=$nameGroupFood&GoupImage=$pathImage';
+        '${MyConstant().domain}/mlao/editGroupFoodWhereId.php?isAdd=true&id=$id&NameGroup=$name&GoupImage=$pathImage';
     await Dio().get(url).then((value) {
       if (value.toString() == 'true') {
         Navigator.pop(context);

@@ -89,7 +89,8 @@ class _ShowCartState extends State<ShowCart> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
-          width: 150,
+          height: 30,
+          width: 120,
           child: ElevatedButton.icon(
               // shape: RoundedRectangleBorder(
               //     borderRadius: BorderRadius.circular(30)),
@@ -103,7 +104,7 @@ class _ShowCartState extends State<ShowCart> {
               ),
               label: Text(
                 'ລົບ ກະຕ່າ',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.redAccent),
               )),
         ),
       ],
@@ -128,7 +129,7 @@ class _ShowCartState extends State<ShowCart> {
                 color: Colors.white,
               ),
               label: Text(
-                'ສິນຄ້າທີ່ສັ່ງ',
+                'ສັ່ງຊື້ສິນຄ້າ',
                 style: TextStyle(color: Colors.white),
               )),
         ),
@@ -380,7 +381,7 @@ class _ShowCartState extends State<ShowCart> {
         String tokenShop = model.token;
         print('tokenShop ==>> $tokenShop');
 
-        String title = 'ມີ Order ຈາກລູກຄ້າ';
+        String title = 'ມີ ອໍເດີ ຈາກລູກຄ້າ';
         String body = 'ມີການສັ່ງສິນຄ້າ ຈາກລູກຄ້າ ';
         String urlSendToken =
             '${MyConstant().domain}/mlao/apiNotification.php?isAdd=true&token=$tokenShop&title=$title&body=$body';

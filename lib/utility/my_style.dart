@@ -6,23 +6,56 @@ class MyStyle {
   Color primaryColor = Colors.green;
 
   Widget iconShowCart(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.shopping_cart),
-      onPressed: () {
-        MaterialPageRoute route = MaterialPageRoute(
-          builder: (context) => ShowCart(),
-        );
-        Navigator.push(context, route);
-      },
+    return Container(
+      child: Row(children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {},
+        ),
+        SizedBox(width: 15),
+        Stack(
+          // ignore: deprecated_member_use
+          overflow: Overflow.visible,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                MaterialPageRoute route = MaterialPageRoute(
+                  builder: (context) => ShowCart(),
+                );
+                Navigator.push(context, route);
+              },
+            ),
+            shownumber()
+          ],
+        )
+      ]),
     );
   }
 
-// Widget horizontals () {
-//     return  Container(
-//             height: 100,
-//       child: CircularProgressIndicator(),
-//     );
-//   }
+  Widget shownumber() {
+    return Positioned(
+      child: Container(
+        width: 18,
+        height: 18,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            border: Border.all(color: Colors.white, width: 1.5)),
+        child: Text(
+          "20",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget showProgress() {
     return Center(

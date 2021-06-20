@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +7,7 @@ import 'package:mlao/model/food_model.dart';
 import 'package:mlao/model/groupfood_model.dart';
 // import 'package:mlao/model/groupfood_model.dart';
 import 'package:mlao/utility/my_constant.dart';
+import 'package:mlao/utility/my_style.dart';
 import 'package:mlao/utility/normal_dialog.dart';
 
 class EditFoodMenu extends StatefulWidget {
@@ -25,15 +26,17 @@ class EditFoodMenu extends StatefulWidget {
 class _EditFoodMenuState extends State<EditFoodMenu> {
   FoodModel foodModel;
   File file;
-  String name, price, detail, pathImage;
+  String nameFood, price, detail, pathImage, idGrp, status;
 
   @override
   void initState() {
     super.initState();
     foodModel = widget.foodModel;
-    name = foodModel.nameFood;
+    nameFood = foodModel.nameFood;
     price = foodModel.price;
     detail = foodModel.detail;
+    idGrp = foodModel.idGrp;
+    status = foodModel.status;
     pathImage = foodModel.pathImage;
   }
 
@@ -47,45 +50,28 @@ class _EditFoodMenuState extends State<EditFoodMenu> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            nameFood(),
+            nameFoods(),
             groupImage(),
             priceFood(),
             detailFood(),
+            MyStyle().showTitleH2('ຊະນິດຂອງຜູ້ໃຊ້ງານ :'),
+            MyStyle().mySizebox(),
+            onRadio(),
+            offRadio(),
+            groupFood()
           ],
         ),
       ),
     );
   }
-// Future<Null> uploadButton() async {
-//     String urlUpload = '${MyConstant().domain}/mlao/saveFood.php';
-
-//     Random random = Random();
-//     int i = random.nextInt(1000000);
-//     String nameFile = 'food$i.jpg';
-
-//     try {
-//       Map<String, dynamic> map = Map();
-//       map['file'] = await MultipartFile.fromFile(file.path, filename: nameFile);
-//       FormData formData = FormData.fromMap(map);
-
-//       await Dio().post(urlUpload, data: formData).then((value) async {
-//         String urlPathImage = '/mlao/Food/$nameFile';
-//         print('urlPathImage = ${MyConstant().domain}$urlPathImage');
-
-//         SharedPreferences preferences = await SharedPreferences.getInstance();
-//         String idShop = preferences.getString('id');
-
-//         String urlInsertData =
-//             '${MyConstant().domain}/mlao/addFood.php?isAdd=true&idShop=$idShop&NameFood=$nameFood&PathImage=$urlPathImage&Price=$price&Detail=$detail';
-//         await Dio().get(urlInsertData).then((value) => Navigator.pop(context));
-//       });
-//     } catch (e) {}
-//   }
 
   FloatingActionButton uploadButton() {
     return FloatingActionButton(
       onPressed: () {
-        if (name.isEmpty || price.isEmpty || detail.isEmpty) {
+        if (nameFood.isEmpty ||
+            price.isEmpty ||
+            detail.isEmpty ||
+            idGrp.isEmpty) {
           normalDialog(context, 'ກະລຸກາໃສ່ຂ້ມູນໃຫ້ຄົບ');
         } else {
           confirmEdit();
@@ -130,14 +116,25 @@ class _EditFoodMenuState extends State<EditFoodMenu> {
   }
 
   Future<Null> editValueOnMySQL() async {
-    String id = foodModel.id;
-    String url =
-        '${MyConstant().domain}/mlao/editFoodWhereId.php?isAdd=true&id=$id&NameFood=$name&PathImage=$pathImage&Price=$price&Detail=$detail';
-    await Dio().get(url).then((value) {
-      if (value.toString() == 'true') {
+    Random random = Random();
+    int i = random.nextInt(100000);
+    String nameFile = 'editFood$i.jpg';
+
+    Map<String, dynamic> map = Map();
+    map['file'] = await MultipartFile.fromFile(file.path, filename: nameFile);
+    FormData formData = FormData.fromMap(map);
+    String urlUpload = '${MyConstant().domain}/mlao/saveFood.php';
+    await Dio().post(urlUpload, data: formData).then((value) async {
+      pathImage = '/mlao/Food/$nameFile';
+      String id = foodModel.id;
+      // print('id = $id');
+      String url =
+          '${MyConstant().domain}/mlao/editFoodWhereId.php?isAdd=true&id=$id&NameFood=$nameFood&PathImage=$pathImage&Price=$price&Detail=$detail&idGrp=$idGrp&Status=$status';
+      Response response = await Dio().get(url);
+      if (response.toString() == 'true') {
         Navigator.pop(context);
       } else {
-        normalDialog(context, 'ກະລຸນາລອງໄໝ່ ຂໍ້ມູນ ? ຜິດພາດ');
+        normalDialog(context, 'ຍັງແກ້ໄຂບໍ່ໄດ້ ກະລຸນາແກ້ໄຂໄໝ່');
       }
     });
   }
@@ -170,8 +167,8 @@ class _EditFoodMenuState extends State<EditFoodMenu> {
     try {
       var object = await ImagePicker().getImage(
         source: source,
-        maxWidth: 800.0,
-        maxHeight: 800.0,
+        maxWidth: 600.0,
+        maxHeight: 600.0,
       );
       setState(() {
         file = File(object.path);
@@ -179,15 +176,15 @@ class _EditFoodMenuState extends State<EditFoodMenu> {
     } catch (e) {}
   }
 
-  Widget nameFood() => Row(
+  Widget nameFoods() => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 16.0),
             width: 250.0,
             child: TextFormField(
-              onChanged: (value) => name = value.trim(),
-              initialValue: name,
+              onChanged: (value) => nameFood = value.trim(),
+              initialValue: nameFood,
               decoration: InputDecoration(
                 labelText: 'ຊື່ສິນຄ້າ',
                 border: OutlineInputBorder(),
@@ -224,13 +221,81 @@ class _EditFoodMenuState extends State<EditFoodMenu> {
             width: 250.0,
             child: TextFormField(
               onChanged: (value) => detail = value.trim(),
-              maxLines: 4,
               keyboardType: TextInputType.multiline,
               initialValue: detail,
               decoration: InputDecoration(
-                labelText: 'ລາຍລະອຽດ ສິນຄ້າ',
+                labelText: 'ຫົວໜ່ວຍ',
                 border: OutlineInputBorder(),
               ),
+            ),
+          ),
+        ],
+      );
+  Widget groupFood() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 16.0),
+            width: 250.0,
+            child: TextFormField(
+              onChanged: (value) => idGrp = value.trim(),
+              keyboardType: TextInputType.multiline,
+              initialValue: idGrp,
+              decoration: InputDecoration(
+                labelText: 'ໝວດສິນຄ້າ',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+        ],
+      );
+
+  Widget onRadio() => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            width: 250.0,
+            child: Row(
+              children: <Widget>[
+                Radio(
+                  value: 'on',
+                  groupValue: status,
+                  onChanged: (value) {
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                ),
+                Text(
+                  ' ມີສິນຄ້າ',
+                  style: TextStyle(color: MyStyle().darkColor),
+                )
+              ],
+            ),
+          ),
+        ],
+      );
+  Widget offRadio() => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            width: 250.0,
+            child: Row(
+              children: <Widget>[
+                Radio(
+                  value: 'off',
+                  groupValue: status,
+                  onChanged: (value) {
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                ),
+                Text(
+                  'ສິນຄ້າໝົດຊົ່ວຄາວ',
+                  style: TextStyle(color: MyStyle().darkColor),
+                )
+              ],
             ),
           ),
         ],

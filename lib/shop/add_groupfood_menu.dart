@@ -16,7 +16,7 @@ class AddGroupFoodMenu extends StatefulWidget {
 
 class _AddGroupFoodMenuState extends State<AddGroupFoodMenu> {
   File file;
-  String nameGroupFood;
+  String nameGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _AddGroupFoodMenuState extends State<AddGroupFoodMenu> {
           if (file == null) {
             normalDialog(context,
                 'ກະລຸນາເລືອກຮູບພາບອາຫານ ໂດຍການ ເລຶອກທີ່ Camera ຫລື Gallery');
-          } else if (nameGroupFood == null || nameGroupFood.isEmpty) {
+          } else if (nameGroup == null || nameGroup.isEmpty) {
             normalDialog(context, 'ກະລຸນາໃສ່ຂໍ້ມູນໃຫ້ຄົບ');
           } else {
             uploadGroupFoodAndInsertData();
@@ -85,7 +85,7 @@ class _AddGroupFoodMenuState extends State<AddGroupFoodMenu> {
         String idShop = preferences.getString('id');
 
         String urlInsertData =
-            '${MyConstant().domain}/mlao/addGroupFood.php?isAdd=true&idShop=$idShop&NameGroupFood=$nameGroupFood&PathImage=$urlPathImage';
+            '${MyConstant().domain}/mlao/addGroupFood.php?isAdd=true&idShop=$idShop&NameGroup=$nameGroup&PathImage=$urlPathImage';
         await Dio().get(urlInsertData).then((value) => Navigator.pop(context));
       });
     } catch (e) {}
@@ -94,7 +94,7 @@ class _AddGroupFoodMenuState extends State<AddGroupFoodMenu> {
   Widget nameGroupForm() => Container(
         width: 250.0,
         child: TextField(
-          onChanged: (value) => nameGroupFood = value.trim(),
+          onChanged: (value) => nameGroup = value.trim(),
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.fastfood),
             labelText: 'ຊື່ໝວດສິນຄ້າ',
